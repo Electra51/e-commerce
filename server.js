@@ -1,16 +1,21 @@
 import express from "express";
 import colors from "colors";
 import dotenv from "dotenv";
+import morgan from "morgan";
+import connectDb from "./config/db.js";
 
-//configure env
-dotenv.config();
+dotenv.config(); //configure env
 
+//database configure
+connectDb();
 /**  if our env file is not at root then we use to 
  dotenv.config({path:"/"}) and indicate env path
  */
+const app = express(); //rest object for express fuction call
 
-//rest object for express fuction call
-const app = express();
+//middlewares
+app.use(express.json()); //enable json
+app.use(morgan("dev")); //morgan configure
 
 //rest api
 app.get("/", (req, res) => {
@@ -26,6 +31,6 @@ const PORT = process.env.PORT || 8080;
 //run listen
 app.listen(PORT, () => {
   console.log(
-    `Server Running on ${process.env.DEV_MODE} mode on ${PORT}`.bgRed.white
+    `Server Running on ${process.env.DEV_MODE} mode on ${PORT}`.bgBlue.white
   );
 });
